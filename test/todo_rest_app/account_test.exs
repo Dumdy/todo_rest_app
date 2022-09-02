@@ -77,7 +77,8 @@ defmodule TodoRestApp.AccountTest do
     end
 
     test "create_todo_activity/1 with valid data creates a todo_activity" do
-      valid_attrs = %{todo_activity: "some todo_activity"}
+      user = user_fixture
+      valid_attrs = %{todo_activity: "some todo_activity", user_id: user.id}
 
       assert {:ok, %TodoActivity{} = todo_activity} = Account.create_todo_activity(valid_attrs)
       assert todo_activity.todo_activity == "some todo_activity"
@@ -91,13 +92,18 @@ defmodule TodoRestApp.AccountTest do
       todo_activity = todo_activity_fixture()
       update_attrs = %{todo_activity: "some updated todo_activity"}
 
-      assert {:ok, %TodoActivity{} = todo_activity} = Account.update_todo_activity(todo_activity, update_attrs)
+      assert {:ok, %TodoActivity{} = todo_activity} =
+               Account.update_todo_activity(todo_activity, update_attrs)
+
       assert todo_activity.todo_activity == "some updated todo_activity"
     end
 
     test "update_todo_activity/2 with invalid data returns error changeset" do
       todo_activity = todo_activity_fixture()
-      assert {:error, %Ecto.Changeset{}} = Account.update_todo_activity(todo_activity, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Account.update_todo_activity(todo_activity, @invalid_attrs)
+
       assert todo_activity == Account.get_todo_activity!(todo_activity.id)
     end
 

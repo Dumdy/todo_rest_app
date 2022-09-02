@@ -25,8 +25,10 @@ defmodule TodoRestAppWeb.TodoActivityControllerTest do
   end
 
   describe "create todo_activity" do
+
     test "renders todo_activity when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.todo_activity_path(conn, :create), todo_activity: @create_attrs)
+       user = user_fixture
+      conn = post(conn, Routes.todo_activity_path(conn, :create), todo_activity: Map.put(@create_attrs, :user_id, user.id))
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.todo_activity_path(conn, :show, id))

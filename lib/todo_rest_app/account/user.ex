@@ -1,10 +1,12 @@
 defmodule TodoRestApp.Account.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias TodoRestApp.Account.TodoActivity
 
   schema "users" do
     field :email, :string
     field :user_name, :string
+    has_many(:todo_activity, TodoActivity)
 
     timestamps()
   end
